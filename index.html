@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>TCG Overlay - v0.0.1</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+	<div id="app" class="mainContainer">
+		<div v-if="ready == false">
+			<div>Ensure you have the Pokemon TCG mapper loaded.</div>
+		</div>
+		<div v-else class="game-layout">
+			<img class="canvas" src="images/ui/texture.png" /><br>
+			<img class="canvas" src="images/ui/game_area.png" /><br>
+			<img class="canvas" src="images/ui/badge_case.png" /><br>
+			<img class="canvas" src="images/ui/grandmasters.png" /><br>
+			<img class="canvas" src="images/ui/card_areas.png" /><br>
+			<div class="debugging">
+				<div>Debugging:</div><br>
+				<div>State: {{mapper.properties.meta.state.value}}</div>
+			</div>
+			<div>
+				<div class="labels label_medals">Medals</div>
+				<div class="labels label_grandmasters">Grandmasters</div>
+			</div>
+			<!-- Medals -->
+			<div>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal0.value == true" class="canvas" src="images/medals/medal1.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal1.value == true" class="canvas" src="images/medals/medal2.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal2.value == true" class="canvas" src="images/medals/medal3.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal3.value == true" class="canvas" src="images/medals/medal4.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal4.value == true" class="canvas" src="images/medals/medal5.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal5.value == true" class="canvas" src="images/medals/medal6.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal6.value == true" class="canvas" src="images/medals/medal7.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.medals.medal7.value == true" class="canvas" src="images/medals/medal8.png"/></transition>
+			</div>
+			<!-- Grandmaster Icons -->
+			<div>
+				<transition name="fade"><img v-show="mapper.properties.player.grandmasters.EVENT_COURTNEY_STATE.value == true"            class="canvas" src="images/grandmasters/gm1.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.grandmasters.EVENT_STEVE_STATE.value == true"               class="canvas" src="images/grandmasters/gm2.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.grandmasters.EVENT_JACK_STATE.value == true"                class="canvas" src="images/grandmasters/gm3.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.grandmasters.EVENT_ROD_STATE.value == true"                 class="canvas" src="images/grandmasters/gm4.png"/></transition>
+				<transition name="fade"><img v-show="mapper.properties.player.grandmasters.EVENT_RONALD_POKEMON_DOME_STATE.value == true" class="canvas" src="images/grandmasters/gm5.png"/></transition>
+			</div>
+			<!-- Left Column -->
+			<div class="left-column">
+			<!-- Player -->
+				<!-- Arena -->
+				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+					<div>
+						<!-- <div>Arena: {{ capitalization_format(mapper.properties.player.arena_pokemon) }}</div> -->
+						<img v-if="mapper.properties.player.arena_pokemon.value != null" 
+							class="player_arena"
+							:src="`images/in_game_cards/${mapper.properties.player.arena_pokemon.value}.png`" />
+					</div>
+	
+					<!-- Bench -->
+					<div>
+						<div v-for="(bench_mon, index) in bench" :key="index">
+							<div v-if="mapper.properties.player.bench[bench_mon].value != null">
+								<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
+								<img 
+									class="bench"
+									:class="`pb${index}`"
+									:src="`images/in_game_cards/${mapper.properties.player.bench[bench_mon]}.png`" /><br>
+							</div>
+						</div>
+					</div>
+	
+					<!-- Hand -->
+					<div v-if="toggle_hand == true">
+						<div v-for="(hand_card, index) in hand" :key="index">
+							<div v-if="mapper.properties.player.hand[hand_card].value != null">
+								<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
+								<img :src="`images/in_game_cards/${mapper.properties.player.hand[hand_card]}.png`" /><br>
+							</div>
+						</div>
+						<br><br>
+					</div>
+				</div>
+
+			<!-- Opponent -->
+				<!-- Arena -->
+				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+					<div>
+						<!-- <div>Arena: {{ capitalization_format(mapper.properties.player.arena_pokemon) }}</div> -->
+						<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
+							class="opponent_arena"
+							:src="`images/in_game_cards/${mapper.properties.opponent.arena_pokemon.value}.png`" />
+					</div>
+
+					<!-- Bench -->
+					<div v-for="(bench_mon, index) in bench" :key="index">
+						<div v-if="mapper.properties.opponent.bench[bench_mon].value != null">
+							<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
+							<img 
+								class="bench"
+								:class="`ob${index}`"
+								:src="`images/in_game_cards/${mapper.properties.opponent.bench[bench_mon]}.png`" /><br>
+						</div>
+					</div>
+
+					<!-- Hand -->
+					<div v-if="toggle_hand == true">
+						<div v-for="(hand_card, index) in hand" :key="index">
+							<div v-if="mapper.properties.opponent.hand[hand_card].value != null">
+								<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
+								<img :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.png`" /><br>
+							</div>
+						</div>
+						<br><br>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right Column: Deck Count -->
+			<div v-if="toggle_deck_list == true" class="right-column">
+				<div class="labels label_player_deck">Player Desk List</div>
+				
+			<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+				<div class="labels label_opponent_deck">Opponent Desk List</div>
+					<div class="desk_list player_dl">
+						<table>
+							<tr v-for="(value, key) in get_player_deck" :key="key">
+								<td>{{ capitalization_format(key) }}:</td>
+								<td style="text-align: right;">{{ value }}</td>
+								<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
+							</tr>
+						</table>
+					</div>
+					<br><br>
+
+					<div class="desk_list opponent_dl">
+						<table>
+							<tr v-for="(value, key) in get_opponent_deck" :key="key">
+								<td>{{ capitalization_format(key) }}:</td>
+								<td style="text-align: right;">{{ value }}</td>
+								<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
+							</tr>
+						</table>
+					</div>
+					<br><br>
+			</div>
+			<div v-else>
+				<div class="desk_list player_dl">
+					<table>
+						<tr v-for="(value, key) in get_overworld_deck_1" :key="key">
+							<td>{{ capitalization_format(key) }}:</td>
+							<td style="text-align: right;">{{ value }}</td>
+							<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
+						</tr>
+					</table>
+				</div>
+				<br><br>
+			</div>
+		</div>
+	</div>
+
+	<!-- Imports -->
+	<script src="https://unpkg.com/@microsoft/signalr@7.0.14/dist/browser/signalr.min.js"></script>
+	<script src="packages/vue.global.js"></script>
+	<script src="packages/gameHookMapperClient.js"></script>
+	<script type="text/javascript" src="frontend.js"></script>
+</body>

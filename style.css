@@ -1,0 +1,151 @@
+body {
+    overflow: hidden;
+}
+@font-face {
+    src: url(fonts/OpenSans-ExtraBold.ttf);
+    font-family: oseb;
+}
+@font-face {
+    src: url(fonts/Play-Bold.ttf);
+    font-family: osb;
+}
+@font-face {
+    src: url(fonts/TitanOne-Regular.ttf);
+    font-family: titan;
+}
+@font-face {
+    src: url(fonts/Play-Bold.ttf);
+    font-family: play;
+}
+/* ANIMATIONS */
+.fade-enter-from   { opacity: 0; }
+.fade-enter-to     { opacity: 1; }
+.fade-enter-active { transition: opacity 300ms ease-in-out; }
+.fade-leave-from   { opacity: 1; }
+.fade-leave-to     { opacity: 0; }
+.fade-leave-active { transition: opacity 200ms ease-in-out; }
+
+.mainContainer {
+    width: 1920px;
+    height: 1080px;
+
+    font-family: play;
+    font-size: 18px;
+
+    display: grid;
+    grid-template-columns: 8px 384px 8px 1120px 8px 384px 8px;
+    grid-template-rows: repeat(60, 1fr);
+}
+.canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+    z-index: -2;
+}
+.debugging {
+    position: absolute;
+    top: 45px;
+    left: 500px;
+    width: 800;
+    height: 800px;
+    z-index: -1;
+}
+.labels {
+    color: yellow;
+    font-size: 46px;
+}
+.label_medals {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+}
+.label_grandmasters {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+.label_player_deck {
+    position: absolute;
+    top: 180px;
+    left: 30px;
+}
+.label_opponent_deck {
+    position: absolute;
+    top: 180px;
+    right: 30px;
+}
+
+
+
+.player_arena {
+    position: absolute;
+    top: 578px;
+    left: 28px;
+    width: 420px;
+    image-rendering: pixelated; /* For modern browsers */
+}
+.opponent_arena {
+    position: absolute;
+    top: 578px;
+    right: 28px;
+    width: 420px;
+    image-rendering: pixelated; /* For modern browsers */
+}
+.desk_list {
+    position: absolute;
+    top: 240px;
+    font-size: 18px;
+    line-height: 16.5px;
+}
+.player_dl {
+    left: 30px;
+}
+.opponent_dl {
+    text-align: right;
+    right: 30px;
+}
+.player_dl, .opponent_dl {
+    column-count: 2; /* Number of columns */
+    column-gap: 20px; /* Gap between columns */
+}
+
+.player_dl div, .opponent_dl div {
+    break-inside: avoid; /* Prevent breaking items across columns */
+}
+
+
+.bench {
+    position: absolute;
+    height: 122px;
+    width: 163px;
+    top: 917px;
+    image-rendering: pixelated; /* For modern browsers */
+}
+.pb0 { left: 28px; }
+.pb1 { left: 198px; }
+.pb2 { left: 368px; }
+.pb3 { left: 538px; }
+.pb4 { left: 709px; }
+
+.ob0 { right: 29px; }
+.ob1 { right: 200px; }
+.ob2 { right: 370px; }
+.ob3 { right: 540px; }
+.ob4 { right: 711px; }
+
+
+.game-layout {
+    display: flex;
+    gap: 20px; /* Optional spacing between columns */
+}
+.left-column {
+    flex: 1; /* Adjust width as needed */
+}
+.right-column {
+    color: yellow;
+    flex: 1; /* Adjust width as needed */
+    /* Optionally add styling for clarity */
+    padding-left: 10px;
+}
