@@ -21,6 +21,20 @@
 			<div class="debugging">
 				<div>Debugging:</div><br>
 				<div>State: {{mapper.properties.meta.state.value}}</div>
+				<div>
+					<transition name="fade">
+					<img v-if="mapper.properties.player.arena_pokemon.value != null" 
+						class="irl_card_test irl_card_test1"
+						:src="`images/irl_cards/${mapper.properties.player.arena_pokemon.value}.jpg`" />
+					</transition>
+				</div>
+				<div>
+					<transition name="fade">
+					<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
+						class="irl_card_test irl_card_test2"
+						:src="`images/irl_cards/${mapper.properties.opponent.arena_pokemon.value}.jpg`" />
+					</transition>
+				</div>
 			</div>
 			<div>
 				<div class="labels label_medals">Medals</div>
@@ -50,33 +64,39 @@
 			<!-- Player -->
 				<!-- Arena -->
 				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
-					<div>
-						<!-- <div>Arena: {{ capitalization_format(mapper.properties.player.arena_pokemon) }}</div> -->
-						<img v-if="mapper.properties.player.arena_pokemon.value != null" 
-							class="player_arena"
-							:src="`images/in_game_cards/${mapper.properties.player.arena_pokemon.value}.png`" />
-					</div>
-	
+					<transition name="fade">
+						<div>
+							<!-- <div>Arena: {{ capitalization_format(mapper.properties.player.arena_pokemon) }}</div> -->
+							<img v-if="mapper.properties.player.arena_pokemon.value != null" 
+								class="player_arena"
+								:src="`images/in_game_cards/${mapper.properties.player.arena_pokemon.value}.png`" />
+						</div>
+					</transition>
+
 					<!-- Bench -->
 					<div>
 						<div v-for="(bench_mon, index) in bench" :key="index">
-							<div v-if="mapper.properties.player.bench[bench_mon].value != null">
-								<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
-								<img 
-									class="bench"
-									:class="`pb${index}`"
-									:src="`images/in_game_cards/${mapper.properties.player.bench[bench_mon]}.png`" /><br>
-							</div>
+							<transition name="fade">
+								<div v-if="mapper.properties.player.bench[bench_mon].value != null">
+									<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
+									<img 
+										class="bench"
+										:class="`pb${index}`"
+										:src="`images/in_game_cards/${mapper.properties.player.bench[bench_mon]}.png`" /><br>
+								</div>
+							</transition>
 						</div>
 					</div>
 	
 					<!-- Hand -->
 					<div v-if="toggle_hand == true">
 						<div v-for="(hand_card, index) in hand" :key="index">
-							<div v-if="mapper.properties.player.hand[hand_card].value != null">
-								<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
-								<img :src="`images/in_game_cards/${mapper.properties.player.hand[hand_card]}.png`" /><br>
-							</div>
+							<transition name="fade">
+								<div v-if="mapper.properties.player.hand[hand_card].value != null">
+									<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
+									<img :src="`images/in_game_cards/${mapper.properties.player.hand[hand_card]}.png`" /><br>
+								</div>
+							</transition>
 						</div>
 						<br><br>
 					</div>
@@ -87,29 +107,35 @@
 				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
 					<div>
 						<!-- <div>Arena: {{ capitalization_format(mapper.properties.player.arena_pokemon) }}</div> -->
-						<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
-							class="opponent_arena"
-							:src="`images/in_game_cards/${mapper.properties.opponent.arena_pokemon.value}.png`" />
+						<transition name="fade">
+							<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
+								class="opponent_arena"
+								:src="`images/in_game_cards/${mapper.properties.opponent.arena_pokemon.value}.png`" />
+						</transition>
 					</div>
 
 					<!-- Bench -->
 					<div v-for="(bench_mon, index) in bench" :key="index">
-						<div v-if="mapper.properties.opponent.bench[bench_mon].value != null">
-							<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
-							<img 
-								class="bench"
-								:class="`ob${index}`"
-								:src="`images/in_game_cards/${mapper.properties.opponent.bench[bench_mon]}.png`" /><br>
-						</div>
+						<transition name="fade">
+							<div v-if="mapper.properties.opponent.bench[bench_mon].value != null">
+								<!-- <div>Bench 1: {{ capitalization_format(mapper.properties.player.bench[bench_mon]) }}</div> -->
+								<img 
+									class="bench"
+									:class="`ob${index}`"
+									:src="`images/in_game_cards/${mapper.properties.opponent.bench[bench_mon]}.png`" /><br>
+							</div>
+						</transition>
 					</div>
 
 					<!-- Hand -->
 					<div v-if="toggle_hand == true">
 						<div v-for="(hand_card, index) in hand" :key="index">
-							<div v-if="mapper.properties.opponent.hand[hand_card].value != null">
-								<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
-								<img :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.png`" /><br>
-							</div>
+							<transition name="fade">
+								<div v-if="mapper.properties.opponent.hand[hand_card].value != null">
+									<!-- <div>Hand {{ hand_card + 1 }}: {{ capitalization_format(mapper.properties.player.hand[hand_card]) }}</div> -->
+									<img :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.png`" /><br>
+								</div>
+							</transition>
 						</div>
 						<br><br>
 					</div>
@@ -119,14 +145,13 @@
 			<!-- Right Column: Deck Count -->
 			<div v-if="toggle_deck_list == true" class="right-column">
 				<div class="labels label_player_deck">Player Desk List</div>
-				
-			<div v-if="mapper.properties.meta.state.value != 'Overworld'">
-				<div class="labels label_opponent_deck">Opponent Desk List</div>
+				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+					<div class="labels label_opponent_deck">Opponent Desk List</div>
 					<div class="desk_list player_dl">
 						<table>
 							<tr v-for="(value, key) in get_player_deck" :key="key">
-								<td>{{ capitalization_format(key) }}:</td>
-								<td style="text-align: right;">{{ value }}</td>
+								<td v-if="capitalization_format(key) == null">{{ capitalization_format(key) }}:</td>
+								<td v-if="capitalization_format(key) == null" style="text-align: right;">{{ value }}</td>
 								<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
 							</tr>
 						</table>
@@ -143,18 +168,21 @@
 						</table>
 					</div>
 					<br><br>
-			</div>
-			<div v-else>
-				<div class="desk_list player_dl">
-					<table>
-						<tr v-for="(value, key) in get_overworld_deck_1" :key="key">
-							<td>{{ capitalization_format(key) }}:</td>
-							<td style="text-align: right;">{{ value }}</td>
-							<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
-						</tr>
-					</table>
+
 				</div>
-				<br><br>
+				<div v-else>
+					<div class="desk_list player_dl">
+						<table>
+							<tr v-for="(value, key) in get_overworld_deck_1" :key="key">
+								<td v-if="capitalization_format(key) == null">{{ capitalization_format(key) }}:</td>
+								<td v-if="capitalization_format(key) == null" style="text-align: right;">{{ value }}</td>
+								<!-- <img style="width: 30px;" :src="`images/in_game_cards/${key}.png`" /><br> -->
+							</tr>
+						</table>
+					</div>
+					<br><br>
+					
+				</div>
 			</div>
 		</div>
 	</div>
