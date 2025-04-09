@@ -18,12 +18,13 @@ const app = Vue.createApp({
         get_overworld_deck_1() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.player.deck_1
+            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
-            // If the card doesn't exist yet in cardCounts, initialize it to 0
-            if (!cardCounts[card]) {
-                cardCounts[card] = 0;
-            }
-            cardCounts[card]++;
+                // If the card doesn't exist yet in cardCounts, initialize it to 0
+                if (!cardCounts[card]) {
+                    cardCounts[card] = 0;
+                }
+                cardCounts[card]++;
             });
 
             // console.log(cardCounts);
@@ -33,12 +34,13 @@ const app = Vue.createApp({
         get_player_deck() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.player.deck
+            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
-            // If the card doesn't exist yet in cardCounts, initialize it to 0
-            if (!cardCounts[card]) {
-                cardCounts[card] = 0;
-            }
-            cardCounts[card]++;
+                // If the card doesn't exist yet in cardCounts, initialize it to 0
+                if (!cardCounts[card]) {
+                    cardCounts[card] = 0;
+                }
+                cardCounts[card]++;
             });
 
             // console.log(cardCounts);
@@ -48,12 +50,13 @@ const app = Vue.createApp({
         get_opponent_deck() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.opponent.deck
+            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
-            // If the card doesn't exist yet in cardCounts, initialize it to 0
-            if (!cardCounts[card]) {
-                cardCounts[card] = 0;
-            }
-            cardCounts[card]++;
+                // If the card doesn't exist yet in cardCounts, initialize it to 0
+                if (!cardCounts[card]) {
+                    cardCounts[card] = 0;
+                }
+                cardCounts[card]++;
             });
 
             // console.log(cardCounts);
@@ -71,6 +74,12 @@ const app = Vue.createApp({
                 .replace(/(^|\s|\-|\.)(\w)/g, function(match, p1, p2) {
                     return p1 + p2.toUpperCase();
                 });
+        },
+        imposter(card_name) {
+            if (card_name == 'Imposter Professor Oak') {
+                return 'Imp. Prof. Oak'
+            }
+            else return card_name
         }
     },
 
