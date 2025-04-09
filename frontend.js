@@ -66,6 +66,14 @@ const app = Vue.createApp({
     },
 
     methods: {
+        countSetBits(byte) {
+            let count = 0;
+            while (byte) {
+                count += byte & 1; // Check if the least significant bit is set
+                byte >>= 1;        // Shift the byte to the right by 1
+            }
+            return count;
+        },
         capitalization_format(str) {
             if (str == null) { return "" }
             return str

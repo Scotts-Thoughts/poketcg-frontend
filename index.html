@@ -20,6 +20,14 @@
 			<div class="debugging">
 				<div>Debugging:</div><br>
 				<div>State: {{mapper.properties.meta.state.value}}</div>
+				<br>
+				<div>Pokemon in play area:</div>
+				<div>Player: {{mapper.properties.player.wPlayerNumberOfPokemonInPlayArea.value}}</div>
+				<div>Opponent: {{mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value}}</div>
+				<br>
+				<div>Prizes:</div>
+				<div>Player: {{countSetBits(mapper.properties.player.wPlayerPrizes.value)}}</div>
+				<div>Opponent: {{countSetBits(mapper.properties.opponent.wOpponentPrizes.value)}}</div>
 			</div>
 			<div>
 				<div class="labels label_medals">Medals</div>
