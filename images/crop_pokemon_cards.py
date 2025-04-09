@@ -85,6 +85,7 @@ if __name__ == "__main__":
 
 # Crop Pokemon
 # python3 crop_pokemon_cards.py "E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\to process" "E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\processes" --left 0.11 --upper 0.123 --right 0.89 --lower 0.50
+# python3 crop_pokemon_cards.py ""E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\irl_cards\exclusives"" "E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\processes" --left 0.11 --upper 0.123 --right 0.89 --lower 0.50
 
 # Crop Trainers
 # python3 crop_pokemon_cards.py "E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\to process" "E:\Dropbox\stp-projects\programs\frontends\poketcg-frontend\images\processes" --left 0.11 --upper 0.213 --right 0.89 --lower 0.59
