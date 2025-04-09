@@ -16,25 +16,10 @@
 			<img class="canvas" src="images/ui/texture.png" /><br>
 			<img class="canvas" src="images/ui/game_area.png" /><br>
 			<img class="canvas" src="images/ui/badge_case.png" /><br>
-			<img class="canvas" src="images/ui/grandmasters.png" /><br>
 			<img class="canvas" src="images/ui/card_areas.png" /><br>
 			<div class="debugging">
 				<div>Debugging:</div><br>
 				<div>State: {{mapper.properties.meta.state.value}}</div>
-				<div>
-					<transition name="fade">
-					<img v-if="mapper.properties.player.arena_pokemon.value != null" 
-						class="irl_card_test irl_card_test1"
-						:src="`images/irl_cards/${mapper.properties.player.arena_pokemon.value}.jpg`" />
-					</transition>
-				</div>
-				<div>
-					<transition name="fade">
-					<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
-						class="irl_card_test irl_card_test2"
-						:src="`images/irl_cards/${mapper.properties.opponent.arena_pokemon.value}.jpg`" />
-					</transition>
-				</div>
 			</div>
 			<div>
 				<div class="labels label_medals">Medals</div>
@@ -68,7 +53,7 @@
 						<div>
 							<img v-if="mapper.properties.player.arena_pokemon.value != null" 
 								class="player_arena"
-								:src="`images/in_game_cards/${mapper.properties.player.arena_pokemon.value}.png`" />
+								:src="`images/irl_cards/${mapper.properties.player.arena_pokemon.value}.jpg`" />
 						</div>
 					</transition>
 
@@ -80,7 +65,7 @@
 									<img 
 										class="bench"
 										:class="`pb${index}`"
-										:src="`images/in_game_cards/${mapper.properties.player.bench[bench_mon]}.png`" /><br>
+										:src="`images/irl_card_art/${mapper.properties.player.bench[bench_mon]}.jpg`" /><br>
 								</div>
 							</transition>
 						</div>
@@ -91,7 +76,7 @@
 						<div v-for="(hand_card, index) in hand" :key="index">
 							<transition name="fade">
 								<div v-if="mapper.properties.player.hand[hand_card].value != null">
-									<img :src="`images/in_game_cards/${mapper.properties.player.hand[hand_card]}.png`" /><br>
+									<img :src="`images/irl_cards/${mapper.properties.player.hand[hand_card]}.jpg`" /><br>
 								</div>
 							</transition>
 						</div>
@@ -106,7 +91,7 @@
 						<transition name="fade">
 							<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
 								class="opponent_arena"
-								:src="`images/in_game_cards/${mapper.properties.opponent.arena_pokemon.value}.png`" />
+								:src="`images/irl_cards/${mapper.properties.opponent.arena_pokemon.value}.jpg`" />
 						</transition>
 					</div>
 
@@ -117,7 +102,7 @@
 								<img 
 									class="bench"
 									:class="`ob${index}`"
-									:src="`images/in_game_cards/${mapper.properties.opponent.bench[bench_mon]}.png`" /><br>
+									:src="`images/irl_card_art/${mapper.properties.opponent.bench[bench_mon]}.jpg`" /><br>
 							</div>
 						</transition>
 					</div>
@@ -127,7 +112,7 @@
 						<div v-for="(hand_card, index) in hand" :key="index">
 							<transition name="fade">
 								<div v-if="mapper.properties.opponent.hand[hand_card].value != null">
-									<img :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.png`" /><br>
+									<img :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.jpg`" /><br>
 								</div>
 							</transition>
 						</div>

@@ -68,12 +68,12 @@ body {
 }
 .label_player_deck {
     position: absolute;
-    top: 180px;
+    top: 145px;
     left: 30px;
 }
 .label_opponent_deck {
     position: absolute;
-    top: 180px;
+    top: 145px;
     right: 30px;
 }
 
@@ -90,21 +90,20 @@ body {
 }
 .player_arena {
     position: absolute;
-    top: 578px;
-    left: 28px;
-    width: 420px;
-    image-rendering: pixelated; /* For modern browsers */
+    top: 463px;
+    left: 81px;
+    width: 313px;
 }
 .opponent_arena {
     position: absolute;
-    top: 578px;
-    right: 28px;
-    width: 420px;
+    top: 463px;
+    right: 81px;
+    width: 313px;
     image-rendering: pixelated; /* For modern browsers */
 }
 .desk_list {
     position: absolute;
-    top: 240px;
+    top: 205px;
     font-size: 18px;
     line-height: 16.5px;
 }
@@ -127,22 +126,21 @@ body {
 
 .bench {
     position: absolute;
-    height: 122px;
-    width: 163px;
-    top: 917px;
-    image-rendering: pixelated; /* For modern browsers */
+    top: 923px;
+    transform: scale(0.372);
+    transform-origin: top left; /* Adjust origin if needed */
 }
 .pb0 { left: 28px; }
-.pb1 { left: 198px; }
-.pb2 { left: 368px; }
-.pb3 { left: 538px; }
-.pb4 { left: 709px; }
+.pb1 { left: 207px; }
+.pb2 { left: 386px; }
+.pb3 { left: 565px; }
+.pb4 { left: 744px; }
 
-.ob0 { right: 29px; }
-.ob1 { right: 200px; }
-.ob2 { right: 370px; }
-.ob3 { right: 540px; }
-.ob4 { right: 711px; }
+.ob0 { right: -265px; }
+.ob1 { right: -86px; }
+.ob2 { right: 93px; }
+.ob3 { right: 272px; }
+.ob4 { right: 451px; }
 
 
 .game-layout {
