@@ -151,8 +151,8 @@
 					<div class="desk_list player_dl">
 						<table>
 							<tr v-for="(value, key) in get_overworld_deck_1" :key="key">
-								<td v-if="imposter(capitalization_format(key)) == null">{{ imposter(capitalization_format(key)) }}:</td>
-								<td v-if="imposter(capitalization_format(key)) == null" style="text-align: right;">{{ value }}</td>
+								<td>{{ imposter(capitalization_format(key)) }}:</td>
+								<td style="text-align: right;">{{ value }}</td>
 							</tr>
 						</table>
 					</div>
