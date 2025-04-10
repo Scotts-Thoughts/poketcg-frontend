@@ -98,8 +98,10 @@
 
 					<!-- Damage -->
 					<div class="damage-counters player-dc">
-						<div v-for="n in calculate_damage_counters('opponent')" :key="n" class="damage-counter">
-							<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
+						<div v-for="n in calculate_damage_counters('player')" :key="n" class="damage-counter">
+							<transition-group name="fade">
+								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
+							</transition-group>
 						</div>
 					</div>
 
@@ -166,7 +168,9 @@
 					<!-- Damage -->
 					<div class="damage-counters opponent-dc">
 						<div v-for="n in calculate_damage_counters('opponent')" :key="n" class="damage-counter">
-							<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
+							<transition-group name="fade">
+								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
+							</transition-group>
 						</div>
 					</div>
 
