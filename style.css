@@ -247,3 +247,44 @@ body, html {
 .opponent-dc {
     left: 1848px;
 }
+
+.bench_dc_container {
+    position: absolute;
+    outline: red solid 1px;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    filter: drop-shadow(0 0 3px black);
+    --imgSize: 19px;
+}
+.bench_dc_container img {
+    width: var(--imgSize);
+    aspect-ratio: 1 / 1;
+}
+.bench_dc {
+    flex-direction: row;
+    bottom: 44px;
+    max-width: 170px;
+    padding: 0px 3px;
+    flex-wrap: wrap-reverse;
+}
+.bench_player_dc_0 { left: calc(30px + (179px * 0)) }
+.bench_player_dc_1 { left: calc(30px + (179px * 1)) }
+.bench_player_dc_2 { left: calc(30px + (179px * 2)) }
+.bench_player_dc_3 { left: calc(30px + (179px * 3)) }
+.bench_player_dc_4 { left: calc(30px + (179px * 4));}
+.bench_opponent_dc_0 { right: calc(30px + (179px * 0)) }
+.bench_opponent_dc_1 { right: calc(30px + (179px * 1)) }
+.bench_opponent_dc_2 { right: calc(30px + (179px * 2)) }
+.bench_opponent_dc_3 { right: calc(30px + (179px * 3)) }
+.bench_opponent_dc_4 { right: calc(30px + (179px * 4));}
+
+.dc_bench {
+    flex-direction: row;
+    bottom: 144px;
+    max-width: 170px;
+    padding: 0px 3px;
+    flex-wrap: wrap-reverse;
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.418));
+    --imgSize: 10.5px;
+}

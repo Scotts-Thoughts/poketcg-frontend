@@ -74,9 +74,18 @@ const app = Vue.createApp({
             const card_data = this.card_data
             const card_name = this.mapper.properties[user].arena_pokemon.value
             if (card_name == undefined) { return }
-            console.log(card_name)
-            console.log(card_data[card_name])
             const total_hp = card_data[card_name].hp
+            const damage = total_hp - hp
+            return damage / 10
+        },
+        calculate_benched_damage_counters(user, slot) {
+            const hp = this.mapper.properties[user].hp[`Bench${slot + 1}CardHP`].value
+            if (hp == 0) { return 0 }
+            const card_data = this.card_data
+            const card_name = this.mapper.properties[user].bench[slot].value
+            if (card_name == undefined) { return }
+            const total_hp = card_data[card_name].hp
+            console.log(total_hp)
             const damage = total_hp - hp
             return damage / 10
         },
