@@ -11,14 +11,19 @@ const app = Vue.createApp({
             toggle_deck_list: true,
             toggle_hand     : false,
             toggle_prize    : false,
+
+            card_data: card_data,
         }
     },
 
     computed: {
+        energy_player_arena() { return this.get_energy('player', 'Arena')},
+        energy_player_bench() { return [this.get_energy('player', 'Bench_1'), this.get_energy('player', 'Bench_2'), this.get_energy('player', 'Bench_3'), this.get_energy('player', 'Bench_4'), this.get_energy('player', 'Bench_5')]},
+        energy_opponent_arena() { return this.get_energy('opponent', 'Arena')},
+        energy_opponent_bench() { return [this.get_energy('opponent', 'Bench_1'), this.get_energy('opponent', 'Bench_2'), this.get_energy('opponent', 'Bench_3'), this.get_energy('opponent', 'Bench_4'), this.get_energy('opponent', 'Bench_5')]},
         get_overworld_deck_1() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.player.deck_1
-            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
                 // If the card doesn't exist yet in cardCounts, initialize it to 0
                 if (!cardCounts[card]) {
@@ -34,7 +39,6 @@ const app = Vue.createApp({
         get_player_deck() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.player.deck
-            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
                 // If the card doesn't exist yet in cardCounts, initialize it to 0
                 if (!cardCounts[card]) {
@@ -50,7 +54,6 @@ const app = Vue.createApp({
         get_opponent_deck() {
             const cardCounts = {};
             const cardProperties = this.mapper.properties.opponent.deck
-            console.log(cardProperties)
             Object.values(cardProperties).forEach(card => {
                 // If the card doesn't exist yet in cardCounts, initialize it to 0
                 if (!cardCounts[card]) {
@@ -66,6 +69,31 @@ const app = Vue.createApp({
     },
 
     methods: {
+        calculate_damage_counters(user) {
+            const hp = this.mapper.properties[user].hp.ArenaCardHP.value
+            const card_data = this.card_data
+            const card_name = this.mapper.properties[user].arena_pokemon.value
+            if (card_name == undefined) { return }
+            console.log(card_name)
+            console.log(card_data[card_name])
+            const total_hp = card_data[card_name].hp
+            const damage = total_hp - hp
+            return damage / 10
+        },
+        get_energy(user, location) {
+            const deck = this.mapper.properties[user].deck
+            const card_locations = this.mapper.properties[user].card_locations
+            const result_array = []
+            for (let i = 0; i < card_locations.length; i++) {
+                if (card_locations[i].value === location) {
+                    if (deck[i].value === 'DOUBLE_COLORLESS_ENERGY') {
+                        result_array.push(deck[i].value)
+                    }
+                    result_array.push(deck[i].value)
+                }
+            }
+            return result_array.filter(item => item.includes('ENERGY'))
+        },
         countSetBits(byte) {
             let count = 0;
             while (byte) {

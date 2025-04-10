@@ -1,5 +1,7 @@
-body {
+body, html {
     overflow: hidden;
+    padding: 0;
+    margin: 0;
 }
 @font-face {
     src: url(fonts/OpenSans-ExtraBold.ttf);
@@ -26,6 +28,7 @@ body {
 .fade-leave-active { transition: opacity 200ms ease-in-out; }
 
 .mainContainer {
+    position: relative;
     width: 1920px;
     height: 1080px;
 
@@ -55,6 +58,24 @@ body {
 .labels {
     color: yellow;
     font-size: 46px;
+}
+.metrics {
+    position: absolute;
+    color: yellow;
+    font-size: 24px;
+    width: 480px;
+    top: 430px;
+    /* How do I center a table within a div? */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center;    /* Vertically center */
+    /* outline: red solid 1px; */
+}
+.player_metrics {
+    left: 0px;
+}
+.opponent_metrics {
+    right: 0px;
 }
 .label_medals {
     position: absolute;
@@ -93,6 +114,20 @@ body {
     top: 463px;
     left: 81px;
     width: 313px;
+}
+.player_arena_card_hp {
+    color: red;
+    position: absolute;
+    top: 457px;
+    left: 400px;
+    font-size: 22px;
+}
+.opponent_arena_card_hp {
+    color: red;
+    position: absolute;
+    top: 457px;
+    right: 14px;
+    font-size: 22px;
 }
 .opponent_arena {
     position: absolute;
@@ -155,4 +190,60 @@ body {
     flex: 1; /* Adjust width as needed */
     /* Optionally add styling for clarity */
     padding-left: 10px;
+}
+
+.energy_container {
+    position: absolute;
+    /* outline: red solid 1px; */
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    filter: drop-shadow(0 0 3px black);
+    --imgSize: 19px;
+}
+.energy_container img {
+    width: var(--imgSize);
+    aspect-ratio: 1 / 1;
+}
+.arena_player_energy {
+    --imgSize: 35px;
+    top: 463px;
+    left: 34px;
+}
+.arena_opponent_energy {
+    --imgSize: 35px;
+    top: 463px;
+    /* right: 34px; */
+    right: 406px;
+}
+.energy_bench {
+    flex-direction: row;
+    bottom: 44px;
+    max-width: 170px;
+    padding: 0px 3px;
+    flex-wrap: wrap-reverse;
+}
+.bench_player_energy_0 { left: calc(30px + (179px * 0)) }
+.bench_player_energy_1 { left: calc(30px + (179px * 1)) }
+.bench_player_energy_2 { left: calc(30px + (179px * 2)) }
+.bench_player_energy_3 { left: calc(30px + (179px * 3)) }
+.bench_player_energy_4 { left: calc(30px + (179px * 4));}
+.bench_opponent_energy_0 { right: calc(30px + (179px * 0)) }
+.bench_opponent_energy_1 { right: calc(30px + (179px * 1)) }
+.bench_opponent_energy_2 { right: calc(30px + (179px * 2)) }
+.bench_opponent_energy_3 { right: calc(30px + (179px * 3)) }
+.bench_opponent_energy_4 { right: calc(30px + (179px * 4));}
+.damage-counters {
+    position: absolute;
+    top: 463px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Prevents mouse events on this layer */
+    z-index: -1; /* Behind other elements */
+}
+.player-dc {
+    left: 404px;
+}
+.opponent-dc {
+    left: 1848px;
 }
