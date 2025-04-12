@@ -138,9 +138,9 @@ body, html {
 }
 .desk_list {
     position: absolute;
-    top: 205px;
-    font-size: 18px;
-    line-height: 16.5px;
+    top: 198px;
+    font-size: 14px;
+    line-height: 14px;
 }
 .player_dl {
     left: 30px;
@@ -150,7 +150,7 @@ body, html {
     right: 30px;
 }
 .player_dl, .opponent_dl {
-    column-count: 2; /* Number of columns */
+    column-count: 3; /* Number of columns */
     column-gap: 20px; /* Gap between columns */
 }
 
