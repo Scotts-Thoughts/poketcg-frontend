@@ -4,7 +4,7 @@ const app = Vue.createApp({
         return {
             ready  : false,
             mapper : null,
-            bench: [0, 1, 2, 3, 4, 5],
+            bench: [0, 1, 2, 3, 4],
             hand: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59],
         
             // Toggles
@@ -14,6 +14,27 @@ const app = Vue.createApp({
 
             card_data: card_data,
         }
+    },
+
+    watch: {
+        "mapper.properties.opponent.bench.0.value"(newValue, oldValue) {
+            console.log("Opponent Bench 0 changed from", oldValue, "to", newValue);
+        },
+        "mapper.properties.opponent.bench.1.value"(newValue, oldValue) {
+            console.log("Opponent Bench 1 changed from", oldValue, "to", newValue);
+        },
+        "mapper.properties.opponent.bench.2.value"(newValue, oldValue) {
+            console.log("Opponent Bench 2 changed from", oldValue, "to", newValue);
+        },
+        "mapper.properties.opponent.bench.3.value"(newValue, oldValue) {
+            console.log("Opponent Bench 3 changed from", oldValue, "to", newValue);
+        },
+        "mapper.properties.opponent.bench.4.value"(newValue, oldValue) {
+            console.log("Opponent Bench 4 changed from", oldValue, "to", newValue);
+        },
+        "mapper.properties.opponent.bench.5.value"(newValue, oldValue) {
+            console.log("Opponent Bench 5 changed from", oldValue, "to", newValue);
+        },
     },
 
     computed: {
@@ -85,7 +106,7 @@ const app = Vue.createApp({
             const card_name = this.mapper.properties[user].bench[slot].value
             if (card_name == undefined) { return }
             const total_hp = card_data[card_name].hp
-            console.log(total_hp)
+            // console.log(total_hp)
             const damage = total_hp - hp
             return Math.floor(damage / 10)
         },
@@ -148,7 +169,7 @@ const app = Vue.createApp({
         this.mapper.debouncePath('opponent')
         this.mapper.debouncePath('player')
         
-        this.mapper._debounceTimeoutMs = 100
+        this.mapper._debounceTimeoutMs = 200
 
         await this.mapper.connect()
     },

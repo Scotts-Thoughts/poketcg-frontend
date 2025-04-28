@@ -97,26 +97,27 @@
 					<!-- Damage -->
 					<div class="damage-counters player-dc">
 						<div v-for="n in calculate_damage_counters('player')" :key="n" class="damage-counter">
-							<transition-group name="fade">
+							<!-- <transition-group name="fade"> -->
 								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
-							</transition-group>
+							<!-- </transition-group> -->
 						</div>
 					</div>
 
 					<!-- Bench -->
 					<div>
-						<div v-for="(bench_mon, index) in bench" :key="index">
+						<div v-for="(bench_mon, index) in bench">
 							<!-- Image -->
-							<transition-group name="fade">
-								<img v-if="mapper.properties.player.bench[bench_mon].value != null && !mapper.properties.player.bench[bench_mon].value.includes('ENERGY')"
+							<!-- <transition-group name="fade"> -->
+								<img v-if="mapper.properties.player.wPlayerNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.player.bench[bench_mon].value != null && !mapper.properties.player.bench[bench_mon].value.includes('ENERGY')"
 									class="bench"
+									:key="index"
 									:class="`pb${index}`"
 									:src="`images/irl_card_art/${mapper.properties.player.bench[bench_mon]}.jpg`" /><br>
-							</transition-group>
+							<!-- </transition-group> -->
 							<!-- Damage -->
-							<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_player_energy_${index}`" :key="index">
+							<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_player_energy_${index}`">
 								<transition-group name="fade">
-									<img v-for="n in calculate_benched_damage_counters('player', index)" :src="`images/damage_counter_green.png`"/>
+									<img v-for="n in calculate_benched_damage_counters('player', index)" :src="`images/damage_counter_green.png`" :key="index"/>
 								</transition-group>
 							</div>
 						</div>
@@ -128,9 +129,9 @@
 							<img v-for="energy in energy_player_arena" :src="`images/energy/${energy}.png`" :key="energy"/>
 						</transition-group>
 					</div>
-					<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container energy_bench bench_player_energy_${index}`" :key="index">
+					<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container energy_bench bench_player_energy_${index}`">
 						<transition-group name="fade">
-							<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`"/>
+							<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`" :key="index"/>
 						</transition-group>
 					</div>
 
@@ -172,25 +173,26 @@
 					</div>
 					<!-- Damage -->
 					<div class="damage-counters opponent-dc">
-						<div v-for="n in calculate_damage_counters('opponent')" :key="n" class="damage-counter">
+						<div v-for="n in calculate_damage_counters('opponent')" class="damage-counter">
 							<transition-group name="fade">
-								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
+								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" :key="n" />
 							</transition-group>
 						</div>
 					</div>
 
 					<!-- Bench -->
-					<div v-for="(bench_mon, index) in bench" :key="index">
-						<transition-group name="fade">
-							<img v-if="mapper.properties.opponent.bench[bench_mon].value != null && !mapper.properties.opponent.bench[bench_mon].value.includes('ENERGY')"
+					<div v-for="(bench_mon, index) in bench" >
+						<!-- <transition-group name="fade"> -->
+							<img v-if="mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.opponent.bench[bench_mon].value != null && !mapper.properties.opponent.bench[bench_mon].value.includes('ENERGY')"
 								class="bench"
+								:key="index"
 								:class="`ob${index}`"
 								:src="`images/irl_card_art/${mapper.properties.opponent.bench[bench_mon]}.jpg`" /><br>
-						</transition-group>
+						<!-- </transition-group> -->
 						<!-- Damage -->
-						<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" :key="index">
+						<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" >
 							<transition-group name="fade">
-								<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`"/>
+								<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`" :key="index"/>
 							</transition-group>
 						</div>
 					</div>
@@ -201,17 +203,17 @@
 							<img v-for="energy in energy_opponent_arena" :src="`images/energy/${energy}.png`" :key="energy"/>
 						</transition-group>
 					</div>
-					<div v-for="(bench_slot, index) in energy_opponent_bench" :class="`energy_container energy_bench bench_opponent_energy_${index}`" :key="index">
+					<div v-for="(bench_slot, index) in energy_opponent_bench" :class="`energy_container energy_bench bench_opponent_energy_${index}`" >
 						<transition-group name="fade">
-							<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`" />
+							<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`" :key="index"/>
 						</transition-group>
 					</div>
 
 					<!-- Hand -->
 					<div v-if="toggle_hand == true">
-						<div v-for="(hand_card, index) in hand" :key="index">
+						<div v-for="(hand_card, index) in hand">
 							<transition-group name="fade">
-								<img v-if="mapper.properties.opponent.hand[hand_card].value != null" :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.jpg`" /><br>
+								<img v-if="mapper.properties.opponent.hand[hand_card].value != null" :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.jpg`" :key="index"/><br>
 							</transition-group>
 						</div>
 						<br><br>
