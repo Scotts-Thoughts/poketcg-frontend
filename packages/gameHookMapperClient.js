@@ -59,9 +59,9 @@ class GameHookMapperClient {
     _signalrClient
     _properties
     _propertiesMap
-    _debouceTimeout = 10
-    _debouceList = []
-    _debouceMap
+    _debounceTimeoutMs = 166
+    _debounceList = []
+    _debounceMap
 
     meta
     properties
@@ -112,7 +112,7 @@ class GameHookMapperClient {
         this.meta = null
         this._properties = null
         this._propertiesMap = null
-        this._debouceMap = null
+        this._debounceMap = null
         this.properties = null
         this.glossary = null
     }
@@ -121,8 +121,8 @@ class GameHookMapperClient {
         return that._propertiesMap.get(path)
     }
 
-    deboucePath(path) {
-        this._debouceList.push(path)
+    debouncePath(path) {
+        this._debounceList.push(path)
     }
 
     async loadMapper() {
@@ -172,13 +172,13 @@ class GameHookMapperClient {
         this._propertiesMap = new Map()
         this._properties.forEach(x => this._propertiesMap.set(x.path, x))
 
-        this._debouceMap = new Map()
-        this._debouceList.forEach(x => {
+        this._debounceMap = new Map()
+        this._debounceList.forEach(x => {
             this._properties.forEach(y => {
                 if (y.path.startsWith(x)) {
-                    this._debouceMap.set(y.path, {
+                    this._debounceMap.set(y.path, {
                         property: y,
-                        timeoutFrames: -1,
+                        timeoutMs: 0,
                         newProperty: null
                     })
                 }
@@ -309,9 +309,9 @@ class GameHookMapperClient {
                         console.warn(`[GameHook Client] Could not find a related property in PropertyUpdated event for: ${propertyChanged.path}`)
                         return
                     }
-                    if (that._debouceMap.has(propertyChanged.path)) {
-                        this._debouceMap.get(propertyChanged.path).timeoutFrames = this._debouceTimeout
-                        this._debouceMap.get(propertyChanged.path).newProperty = propertyChanged
+                    if (that._debounceMap.has(propertyChanged.path)) {
+                        this._debounceMap.get(propertyChanged.path).timeoutMs = performance.now() + this._debounceTimeoutMs
+                        this._debounceMap.get(propertyChanged.path).newProperty = propertyChanged
                     } else {
                         updateProperty(propertyChanged)
                     }
@@ -321,17 +321,16 @@ class GameHookMapperClient {
             }
         })
 
-        function debouce() {
-            for (const value of that._debouceMap.values()) {
-                if (value.timeoutFrames > 0) {
-                    value.timeoutFrames--
-                } else if (value.timeoutFrames === 0) {
+        function debounce(timestamp) {
+            for (const value of that._debounceMap.values()) {
+                if (value.timeoutMs == 0) continue;
+                if (value.timeoutMs < timestamp) {
+                    value.timeoutMs = 0;
                     updateProperty(value.newProperty)
-                    value.timeoutFrames = -1
                 }
             }
             if (that.connected === true)
-                requestAnimationFrame(debouce)
+                requestAnimationFrame(debounce)
         }
 
         this._signalrClient.on('MapperLoaded', async () => { await this.loadMapper(); this.onMapperLoaded() })
@@ -342,7 +341,7 @@ class GameHookMapperClient {
 
 
         const result = await this._establishConnection()
-        if (result === true) debouce()
+        if (result === true) debounce(performance.now())
         return result
     }
 
