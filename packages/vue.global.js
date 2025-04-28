@@ -16498,7 +16498,8 @@ var Vue = (function (exports) {
         warn(codeFrame ? `${message}
   ${codeFrame}` : message);
       }
-      const render = new Function(code)() ;
+      // const render = new Function(code)() ;
+      const render = new Function(code + "\n//# sourceURL=generated-template-code.js")() ;
       render._rc = true;
       return cache[key] = render;
     }

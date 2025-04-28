@@ -76,7 +76,7 @@ const app = Vue.createApp({
             if (card_name == undefined) { return }
             const total_hp = card_data[card_name].hp
             const damage = total_hp - hp
-            return damage / 10
+            return Math.floor(damage / 10)
         },
         calculate_benched_damage_counters(user, slot) {
             const hp = this.mapper.properties[user].hp[`Bench${slot + 1}CardHP`].value
@@ -87,7 +87,7 @@ const app = Vue.createApp({
             const total_hp = card_data[card_name].hp
             console.log(total_hp)
             const damage = total_hp - hp
-            return damage / 10
+            return Math.floor(damage / 10)
         },
         get_energy(user, location) {
             const deck = this.mapper.properties[user].deck
@@ -121,11 +121,22 @@ const app = Vue.createApp({
                 });
         },
         imposter(card_name) {
-            if (card_name == 'Imposter Professor Oak') {
-                return 'Imp. Prof. Oak'
-            }
-            else return card_name
-        }
+            // Replace the work Pokemon with PKMN
+            card_name = card_name.replace("Pokemon", 'Pkmn')
+            card_name = card_name.replace("Computer", 'Comp.')
+            card_name = card_name.replace("Professor", 'Prof.')
+            card_name = card_name.replace("Imposter", 'Imp.')
+            card_name = card_name.replace("Energy", 'E.')
+            card_name = card_name.replace("Double", 'Dbl.')
+            card_name = card_name.replace("Pluspower", 'PlusPower')
+            card_name = card_name.replace("Of", 'of')
+            card_name = card_name.replace("Lv", 'L')
+            card_name = card_name.replace("Surfing", 'S.')
+            card_name = card_name.replace("Alt", '')
+            card_name = card_name.replace("Devolution", 'Devo.')
+            card_name = card_name.replace("Mysterious", 'Mstry.')
+            return card_name
+        },
     },
 
     mounted: async function () {
@@ -133,6 +144,12 @@ const app = Vue.createApp({
         this.mapper = new GameHookMapperClient()
         this.mapper.onConnected = (x) => this.ready = true
         this.mapper.onDisconnected = (x) => this.ready = false
+
+        this.mapper.debouncePath('opponent')
+        this.mapper.debouncePath('player')
+        
+        this.mapper._debounceTimeoutMs = 100
+
         await this.mapper.connect()
     },
 

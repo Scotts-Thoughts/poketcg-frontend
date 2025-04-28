@@ -227,35 +227,32 @@
 					<div class="desk_list player_dl">
 						<table>
 							<tr v-for="(value, key) in get_player_deck" :key="key">
-								<td>{{ imposter(capitalization_format(key)) }}:</td>
-								<td style="text-align: right;">{{ value }}</td>
+								<td>{{ imposter(capitalization_format(key)) }}</td>
+								<td style="text-align: right;">x{{ value }}</td>
 							</tr>
 						</table>
 					</div>
 					<br><br>
-
 					<div class="desk_list opponent_dl">
 						<table>
 							<tr v-for="(value, key) in get_opponent_deck" :key="key">
-								<td>{{ imposter(capitalization_format(key)) }}:</td>
-								<td style="text-align: right;">{{ value }}</td>
+								<td>{{ imposter(capitalization_format(key)) }}</td>
+								<td style="text-align: right;">x{{ value }}</td>
 							</tr>
 						</table>
 					</div>
 					<br><br>
-
 				</div>
 				<div v-else>
 					<div class="desk_list player_dl">
 						<table>
 							<tr v-for="(value, key) in get_overworld_deck_1" :key="key">
-								<td>{{ imposter(capitalization_format(key)) }}:</td>
-								<td style="text-align: right;">{{ value }}</td>
+								<td>{{ imposter(capitalization_format(key)) }}</td>
+								<td style="text-align: right;">x{{ value }}</td>
 							</tr>
 						</table>
 					</div>
 					<br><br>
-					
 				</div>
 			</div>
 		</div>

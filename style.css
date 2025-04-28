@@ -57,7 +57,7 @@ body, html {
 }
 .labels {
     color: yellow;
-    font-size: 46px;
+    font-size: 42px;
 }
 .metrics {
     position: absolute;
@@ -114,6 +114,8 @@ body, html {
     top: 463px;
     left: 81px;
     width: 313px;
+    /* rounded edges */
+    border-radius: 10px;
 }
 .player_arena_card_hp {
     color: red;
@@ -135,6 +137,8 @@ body, html {
     right: 81px;
     width: 313px;
     image-rendering: pixelated; /* For modern browsers */
+    /* rounded edges */
+    border-radius: 10px;
 }
 .desk_list {
     position: absolute;
@@ -151,7 +155,7 @@ body, html {
 }
 .player_dl, .opponent_dl {
     column-count: 3; /* Number of columns */
-    column-gap: 20px; /* Gap between columns */
+    column-gap: 0px; /* Gap between columns */
 }
 
 .player_dl div, .opponent_dl div {
@@ -164,6 +168,8 @@ body, html {
     top: 923px;
     transform: scale(0.372);
     transform-origin: top left; /* Adjust origin if needed */
+    /* rounded edges */
+    border-radius: 20px;
 }
 .pb0 { left: 28px; }
 .pb1 { left: 207px; }
