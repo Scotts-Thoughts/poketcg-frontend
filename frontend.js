@@ -38,6 +38,54 @@ const app = Vue.createApp({
     },
 
     computed: {
+        status_condition_player() {
+            const status = this.mapper.properties.player.arena_status.value
+            const status_object = {
+                sleep: false,
+                paralysis: false,
+                poison: false,
+                confusion: false,
+            }
+            switch (status) {
+                case null: break;
+                case 'CONFUSED':          { status_object.confusion = true; break; }
+                case 'ASLEEP':            { status_object.sleep = true;     break; }
+                case 'PARALYZED':         { status_object.paralysis = true; break; }
+                case 'POISONED':          { status_object.poison = true;    break; }
+                case 'DOUBLE_POISONED':   { status_object.poison = true;    break; }
+                case 'DOUBLE_POISONED_F': { status_object.poison = true;    break; }
+                case 'POISONED_F':        { status_object.poison = true;    break; }
+                case 'PSN_DBLPSN':        { status_object.poison = true;    break; }
+                case 'PSN_DAMAGE':        { status_object.poison = true;    break; }
+                case 'DBLPSN_DAMAGE':     { status_object.poison = true;    break; }
+                case 'CNF_SLP_PRZ':       { status_object.confusion = true; status_object.sleep = true; status_object.paralysis = true; break; }
+            }
+            return status_object
+        },
+        status_condition_opponent() {
+            const status = this.mapper.properties.opponent.arena_status.value
+            const status_object = {
+                sleep: false,
+                paralysis: false,
+                poison: false,
+                confusion: false,
+            }
+            switch (status) {
+                case null: break;
+                case 'CONFUSED':          { status_object.confusion = true; break; }
+                case 'ASLEEP':            { status_object.sleep = true;     break; }
+                case 'PARALYZED':         { status_object.paralysis = true; break; }
+                case 'POISONED':          { status_object.poison = true;    break; }
+                case 'DOUBLE_POISONED':   { status_object.poison = true;    break; }
+                case 'DOUBLE_POISONED_F': { status_object.poison = true;    break; }
+                case 'POISONED_F':        { status_object.poison = true;    break; }
+                case 'PSN_DBLPSN':        { status_object.poison = true;    break; }
+                case 'PSN_DAMAGE':        { status_object.poison = true;    break; }
+                case 'DBLPSN_DAMAGE':     { status_object.poison = true;    break; }
+                case 'CNF_SLP_PRZ':       { status_object.confusion = true; status_object.sleep = true; status_object.paralysis = true; break; }
+            }
+            return status_object
+        },
         energy_player_arena() { return this.get_energy('player', 'Arena')},
         energy_player_bench() { return [this.get_energy('player', 'Bench_1'), this.get_energy('player', 'Bench_2'), this.get_energy('player', 'Bench_3'), this.get_energy('player', 'Bench_4'), this.get_energy('player', 'Bench_5')]},
         energy_opponent_arena() { return this.get_energy('opponent', 'Arena')},
@@ -90,6 +138,10 @@ const app = Vue.createApp({
     },
 
     methods: {
+        card_in_arena(user) {
+            const array = this.mapper.properties[user].card_locations
+            return array.some(entry => entry.value === "Arena");
+        },
         calculate_damage_counters(user) {
             const hp = this.mapper.properties[user].hp.ArenaCardHP.value
             const card_data = this.card_data

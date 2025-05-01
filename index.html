@@ -28,7 +28,7 @@
 				<div>Prizes:</div>
 				<div>Player: {{countSetBits(mapper.properties.player.wPlayerPrizes.value)}}</div>
 				<div>Opponent: {{countSetBits(mapper.properties.opponent.wOpponentPrizes.value)}}</div>
-				<br>
+				<!-- <br>
 				<div>Bench1DC: {{calculate_benched_damage_counters('player', 0)}}</div>
 				<div>Bench2DC: {{calculate_benched_damage_counters('player', 1)}}</div>
 				<div>Bench3DC: {{calculate_benched_damage_counters('player', 2)}}</div>
@@ -40,12 +40,20 @@
 				<div>Bench3DC: {{calculate_benched_damage_counters('opponent', 2)}}</div>
 				<div>Bench4DC: {{calculate_benched_damage_counters('opponent', 3)}}</div>
 				<div>Bench5DC: {{calculate_benched_damage_counters('opponent', 4)}}</div>
+				<br> -->
+				<br>
+				<div>Player Status: {{status_condition_player}}</div>
+				<div>Opponent Status: {{status_condition_opponent}}</div>
+				<!-- <div>Opponent Status: {{status_condition_opponent.poison}}</div> -->
 				<br>
 				<div>Player Deck Cards: {{60 - mapper.properties.player.NumberOfCardsNotInDeck.value}}</div>
 				<div>Opponent Deck Cards: {{60 - mapper.properties.opponent.NumberOfCardsNotInDeck.value}}</div>
 				<br>
 				<div>Damage: {{calculate_damage_counters("player")}}</div>
 				<div>Damage: {{calculate_damage_counters("opponent")}}</div>
+				<br>
+				<div>Arena Card Present Player: {{card_in_arena('player')}}</div>
+				<div>Arena Card Present Opponent: {{card_in_arena('opponent')}}</div>
 			</div>
 			<div>
 				<div class="labels label_medals">Medals</div>
@@ -73,7 +81,7 @@
 			<!-- Left Column -->
 			<div class="left-column">
 			<!-- Player -->
-			<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+			<div v-if="mapper.properties.meta.state.value != 'Overworld' && mapper.properties.meta.state.value != 'To Battle' && card_in_arena('player')">
 					<!-- Prizes & Deck-->
 					<div class="metrics player_metrics">
 						<table>
@@ -89,7 +97,7 @@
 					<!-- Arena -->
 					<!-- <div class="player_arena_card_hp">{{mapper.properties.player.hp.ArenaCardHP.value}} HP</div> -->
 					<transition name="fade">
-						<img v-if="mapper.properties.player.arena_pokemon.value != null" 
+						<img v-if="mapper.properties.player.arena_pokemon.value != null && card_in_arena" 
 							class="player_arena"
 							:src="`images/irl_cards/${mapper.properties.player.arena_pokemon.value}.jpg`" />
 					</transition>
@@ -146,77 +154,125 @@
 						</div>
 						<br><br>
 					</div>
+					<!-- Status Conditions -->
+					<div class="status_condition_container player_status">
+						<transition name="fade">
+							<div v-if="status_condition_player.poison == true">
+								<img class="icon poison" :src="`images/status_conditions/Poison.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_player.confusion == true">
+								<img class="icon confusion" :src="`images/status_conditions/Confusion.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_player.paralysis == true">
+								<img class="icon paralysis" :src="`images/status_conditions/Paralysis.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_player.sleep == true">
+								<img class="icon sleep" :src="`images/status_conditions/Sleep.png`" />
+							</div>
+						</transition>
+					</div>
 				</div>
 
 				<!-- Opponent -->
-				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
-					<!-- Prizes & Deck-->
-					<div class="metrics opponent_metrics">
-						<table>
-							<tr>
-								<td>Deck:</td>
-								<td>{{60 - mapper.properties.opponent.NumberOfCardsNotInDeck.value}}</td>
-								<td style="width: 24px;"> </td>
-								<td>Prizes:</td>
-								<td>{{countSetBits(mapper.properties.opponent.wOpponentPrizes.value)}}</td>
-							</tr>
-						</table>
-					</div>
-					<!-- Arena -->
-					<div>
-						<!-- <div class="opponent_arena_card_hp">{{mapper.properties.opponent.hp.ArenaCardHP.value}} HP</div> -->
-						<transition name="fade">
-							<img v-if="mapper.properties.opponent.arena_pokemon.value != null" 
-								class="opponent_arena"
-								:src="`images/irl_cards/${mapper.properties.opponent.arena_pokemon.value}.jpg`" />
-						</transition>
-					</div>
-					<!-- Damage -->
-					<div class="damage-counters opponent-dc">
-						<div v-for="n in calculate_damage_counters('opponent')" class="damage-counter">
-							<transition-group name="fade">
-								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" :key="n" />
-							</transition-group>
+				<div v-if="mapper.properties.meta.state.value != 'Overworld' && mapper.properties.meta.state.value != 'To Battle' && card_in_arena('opponent')">
+					<transition-group name="fade">
+						<!-- Prizes & Deck-->
+						<div class="metrics opponent_metrics" key="prizes">
+							<table>
+								<tr>
+									<td>Deck:</td>
+									<td>{{60 - mapper.properties.opponent.NumberOfCardsNotInDeck. value}}</td>
+									<td style="width: 24px;"> </td>
+									<td>Prizes:</td>
+									<td>{{countSetBits(mapper.properties.opponent.wOpponentPrizes.value)}}</td>
+								</tr>
+							</table>
 						</div>
-					</div>
-
-					<!-- Bench -->
-					<div v-for="(bench_mon, index) in bench" >
-						<!-- <transition-group name="fade"> -->
-							<img v-if="mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.opponent.bench[bench_mon].value != null && !mapper.properties.opponent.bench[bench_mon].value.includes('ENERGY')"
-								class="bench"
-								:key="index"
-								:class="`ob${index}`"
-								:src="`images/irl_card_art/${mapper.properties.opponent.bench[bench_mon]}.jpg`" /><br>
-						<!-- </transition-group> -->
+						<!-- Arena -->
+						<div key="arena">
+							<!-- <div class="opponent_arena_card_hp">{{mapper.properties.opponent.hp.ArenaCardHP.value}} HP</div> -->
+							<transition name="fade">
+								<img v-if="mapper.properties.opponent.arena_pokemon.value != null && (mapper.properties.opponent.wOpponentArenaCard.value != 255 || mapper.properties.opponent.wOpponentArenaCard.value != 0)" 
+									class="opponent_arena"
+									:src="`images/irl_cards/${mapper.properties.opponent.arena_pokemon.value}.jpg`" />
+							</transition>
+						</div>
 						<!-- Damage -->
-						<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" >
+						<div class="damage-counters opponent-dc" key="damage">
+							<div v-for="n in calculate_damage_counters('opponent')" class="damage-counter">
+								<transition-group name="fade">
+									<img v-show="mapper.properties.opponent.wOpponentArenaCard.value != 255 || mapper.properties.opponent.wOpponentArenaCard.value != 0" style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" :key="n" />
+								</transition-group>
+							</div>
+						</div>
+	
+						<!-- Bench -->
+						<div v-for="(bench_mon, index) in bench" key="bench">
+							<!-- <transition-group name="fade"> -->
+								<img v-if="mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.opponent.bench[bench_mon].value != null && !mapper.properties.opponent.bench[bench_mon].value.includes('ENERGY')"
+									class="bench"
+									:key="index"
+									:class="`ob${index}`"
+									:src="`images/irl_card_art/${mapper.properties.opponent.bench[bench_mon]}.jpg`" /><br>
+							<!-- </transition-group> -->
+							<!-- Damage -->
+							<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" >
+								<transition-group name="fade">
+									<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`" :key="index"/>
+								</transition-group>
+							</div>
+						</div>
+	
+						<!-- Energy -->
+						<div class="energy_container arena_opponent_energy" key="energy">
 							<transition-group name="fade">
-								<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`" :key="index"/>
+								<img v-for="energy in energy_opponent_arena" :src="`images/energy/${energy}.png`" :key="energy"/>
 							</transition-group>
 						</div>
-					</div>
-
-					<!-- Energy -->
-					<div class="energy_container arena_opponent_energy">
-						<transition-group name="fade">
-							<img v-for="energy in energy_opponent_arena" :src="`images/energy/${energy}.png`" :key="energy"/>
-						</transition-group>
-					</div>
-					<div v-for="(bench_slot, index) in energy_opponent_bench" :class="`energy_container energy_bench bench_opponent_energy_${index}`" >
-						<transition-group name="fade">
-							<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`" :key="index"/>
-						</transition-group>
-					</div>
-
-					<!-- Hand -->
-					<div v-if="toggle_hand == true">
-						<div v-for="(hand_card, index) in hand">
+						<div v-for="(bench_slot, index) in energy_opponent_bench" :class="`energy_container energy_bench bench_opponent_energy_${index}`" :key="`bench${bench_slot}`">
 							<transition-group name="fade">
-								<img v-if="mapper.properties.opponent.hand[hand_card].value != null" :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.jpg`" :key="index"/><br>
+								<img v-for="energy in bench_slot" :src="`images/energy/${energy}.png`" :key="index"/>
 							</transition-group>
 						</div>
-						<br><br>
+	
+						<!-- Hand -->
+						<div v-if="toggle_hand == true" key="hand">
+							<div v-for="(hand_card, index) in hand">
+								<transition-group name="fade">
+									<img v-if="mapper.properties.opponent.hand[hand_card].value != null" :src="`images/in_game_cards/${mapper.properties.opponent.hand[hand_card]}.jpg`" :key="index"/><br>
+								</transition-group>
+							</div>
+							<br><br>
+						</div>
+					</transition-group>
+					<!-- Status Conditions -->
+					<div class="status_condition_container opponent_status">
+						<transition name="fade">
+							<div v-if="status_condition_opponent.poison == true">
+								<img class="icon poison" :src="`images/status_conditions/Poison.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_opponent.confusion == true">
+								<img class="icon confusion" :src="`images/status_conditions/Confusion.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_opponent.paralysis == true">
+								<img class="icon paralysis" :src="`images/status_conditions/Paralysis.png`" />
+							</div>
+						</transition>
+						<transition name="fade">
+							<div v-if="status_condition_opponent.sleep == true">
+								<img class="icon sleep" :src="`images/status_conditions/Sleep.png`" />
+							</div>
+						</transition>
 					</div>
 				</div>
 			</div>
@@ -224,7 +280,7 @@
 			<!-- Right Column: Deck Count -->
 			<div v-if="toggle_deck_list == true" class="right-column">
 				<div class="labels label_player_deck">Player Deck List</div>
-				<div v-if="mapper.properties.meta.state.value != 'Overworld'">
+				<div v-if="mapper.properties.meta.state.value != 'Overworld' && mapper.properties.meta.state.value != 'To Battle' && card_in_arena('opponent')">
 					<div class="labels label_opponent_deck">Opponent Deck List</div>
 					<div class="desk_list player_dl">
 						<table>

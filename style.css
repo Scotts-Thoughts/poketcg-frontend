@@ -294,3 +294,43 @@ body, html {
     filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.418));
     --imgSize: 10.5px;
 }
+
+.status_condition_container {
+    /* outline: red solid 1px; */
+    position: absolute;
+    width: 312px;
+    height: 428px;
+    top: 464px;   
+}
+.opponent_status {
+    right: 82px;
+}
+.player_status {
+    left: 82px;
+}
+.icon {
+    /* outline: red solid 1px; */
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.849));
+    width: 30px;
+    height: 30px;
+}
+.poison {
+    position: absolute;
+    top: 50px;
+    left: 35px;
+}
+.paralysis {
+    position: absolute;
+    top: 186px;
+    left: 35px;
+}
+.sleep {
+    position: absolute;
+    top: 50px;
+    right: 32px;
+}
+.confusion {
+    position: absolute;
+    top: 186px;
+    right: 32px;
+}
