@@ -25,35 +25,9 @@
 				<div>Player: {{mapper.properties.player.wPlayerNumberOfPokemonInPlayArea.value}}</div>
 				<div>Opponent: {{mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value}}</div>
 				<br>
-				<div>Prizes:</div>
-				<div>Player: {{countSetBits(mapper.properties.player.wPlayerPrizes.value)}}</div>
-				<div>Opponent: {{countSetBits(mapper.properties.opponent.wOpponentPrizes.value)}}</div>
-				<!-- <br>
-				<div>Bench1DC: {{calculate_benched_damage_counters('player', 0)}}</div>
-				<div>Bench2DC: {{calculate_benched_damage_counters('player', 1)}}</div>
-				<div>Bench3DC: {{calculate_benched_damage_counters('player', 2)}}</div>
-				<div>Bench4DC: {{calculate_benched_damage_counters('player', 3)}}</div>
-				<div>Bench5DC: {{calculate_benched_damage_counters('player', 4)}}</div>
-				<br>
-				<div>Bench1DC: {{calculate_benched_damage_counters('opponent', 0)}}</div>
-				<div>Bench2DC: {{calculate_benched_damage_counters('opponent', 1)}}</div>
-				<div>Bench3DC: {{calculate_benched_damage_counters('opponent', 2)}}</div>
-				<div>Bench4DC: {{calculate_benched_damage_counters('opponent', 3)}}</div>
-				<div>Bench5DC: {{calculate_benched_damage_counters('opponent', 4)}}</div>
-				<br> -->
-				<br>
-				<div>Player Status: {{status_condition_player}}</div>
-				<div>Opponent Status: {{status_condition_opponent}}</div>
-				<!-- <div>Opponent Status: {{status_condition_opponent.poison}}</div> -->
-				<br>
-				<div>Player Deck Cards: {{60 - mapper.properties.player.NumberOfCardsNotInDeck.value}}</div>
-				<div>Opponent Deck Cards: {{60 - mapper.properties.opponent.NumberOfCardsNotInDeck.value}}</div>
-				<br>
-				<div>Damage: {{calculate_damage_counters("player")}}</div>
-				<div>Damage: {{calculate_damage_counters("opponent")}}</div>
-				<br>
 				<div>Arena Card Present Player: {{card_in_arena('player')}}</div>
 				<div>Arena Card Present Opponent: {{card_in_arena('opponent')}}</div>
+				<div>Player Arena Card: {{mapper.properties.player.arena_pokemon.value}}</div>
 			</div>
 			<div>
 				<div class="labels label_medals">Medals</div>
@@ -95,7 +69,6 @@
 						</table>
 					</div>
 					<!-- Arena -->
-					<!-- <div class="player_arena_card_hp">{{mapper.properties.player.hp.ArenaCardHP.value}} HP</div> -->
 					<transition name="fade">
 						<img v-if="mapper.properties.player.arena_pokemon.value != null && card_in_arena" 
 							class="player_arena"
@@ -104,10 +77,10 @@
 
 					<!-- Damage -->
 					<div class="damage-counters player-dc">
-						<div v-for="n in calculate_damage_counters('player')" :key="n" class="damage-counter">
-							<!-- <transition-group name="fade"> -->
-								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" />
-							<!-- </transition-group> -->
+						<div v-for="n in calculate_damage_counters('player')" class="damage-counter">
+							<transition-group name="fade">
+								<img style="width: 38px;" src="images/damage_counter_green.png" alt="Damage Counter" :key="n" />
+							</transition-group>
 						</div>
 					</div>
 
@@ -115,13 +88,11 @@
 					<div>
 						<div v-for="(bench_mon, index) in bench">
 							<!-- Image -->
-							<!-- <transition-group name="fade"> -->
-								<img v-if="mapper.properties.player.wPlayerNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.player.bench[bench_mon].value != null && !mapper.properties.player.bench[bench_mon].value.includes('ENERGY')"
-									class="bench"
-									:key="index"
-									:class="`pb${index}`"
-									:src="`images/irl_card_art/${mapper.properties.player.bench[bench_mon]}.jpg`" /><br>
-							<!-- </transition-group> -->
+							<img v-if="mapper.properties.player.wPlayerNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.player.bench[bench_mon].value != null && !mapper.properties.player.bench[bench_mon].value.includes('ENERGY')"
+								class="bench"
+								:key="index"
+								:class="`pb${index}`"
+								:src="`images/irl_card_art/${mapper.properties.player.bench[bench_mon]}.jpg`" /><br>
 							<!-- Damage -->
 							<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_player_energy_${index}`">
 								<transition-group name="fade">
@@ -196,7 +167,6 @@
 						</div>
 						<!-- Arena -->
 						<div key="arena">
-							<!-- <div class="opponent_arena_card_hp">{{mapper.properties.opponent.hp.ArenaCardHP.value}} HP</div> -->
 							<transition name="fade">
 								<img v-if="mapper.properties.opponent.arena_pokemon.value != null && (mapper.properties.opponent.wOpponentArenaCard.value != 255 || mapper.properties.opponent.wOpponentArenaCard.value != 0)" 
 									class="opponent_arena"
@@ -213,19 +183,19 @@
 						</div>
 	
 						<!-- Bench -->
-						<div v-for="(bench_mon, index) in bench" key="bench">
-							<!-- <transition-group name="fade"> -->
+						<div key="bench_key">
+							<div v-for="(bench_mon, index) in bench" >
 								<img v-if="mapper.properties.opponent.wOpponentNumberOfPokemonInPlayArea.value > bench_mon + 1 && mapper.properties.opponent.bench[bench_mon].value != null && !mapper.properties.opponent.bench[bench_mon].value.includes('ENERGY')"
 									class="bench"
 									:key="index"
 									:class="`ob${index}`"
 									:src="`images/irl_card_art/${mapper.properties.opponent.bench[bench_mon]}.jpg`" /><br>
-							<!-- </transition-group> -->
-							<!-- Damage -->
-							<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" >
-								<transition-group name="fade">
-									<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`" :key="index"/>
-								</transition-group>
+								<!-- Damage -->
+								<div v-for="(bench_slot, index) in energy_player_bench" :class="`energy_container dc_bench bench_opponent_energy_${index}`" >
+									<transition-group name="fade">
+										<img v-for="n in calculate_benched_damage_counters('opponent', index)" :src="`images/damage_counter_green.png`" :key="index"/>
+									</transition-group>
+								</div>
 							</div>
 						</div>
 	

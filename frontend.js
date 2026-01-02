@@ -16,27 +16,6 @@ const app = Vue.createApp({
         }
     },
 
-    watch: {
-        "mapper.properties.opponent.bench.0.value"(newValue, oldValue) {
-            console.log("Opponent Bench 0 changed from", oldValue, "to", newValue);
-        },
-        "mapper.properties.opponent.bench.1.value"(newValue, oldValue) {
-            console.log("Opponent Bench 1 changed from", oldValue, "to", newValue);
-        },
-        "mapper.properties.opponent.bench.2.value"(newValue, oldValue) {
-            console.log("Opponent Bench 2 changed from", oldValue, "to", newValue);
-        },
-        "mapper.properties.opponent.bench.3.value"(newValue, oldValue) {
-            console.log("Opponent Bench 3 changed from", oldValue, "to", newValue);
-        },
-        "mapper.properties.opponent.bench.4.value"(newValue, oldValue) {
-            console.log("Opponent Bench 4 changed from", oldValue, "to", newValue);
-        },
-        "mapper.properties.opponent.bench.5.value"(newValue, oldValue) {
-            console.log("Opponent Bench 5 changed from", oldValue, "to", newValue);
-        },
-    },
-
     computed: {
         status_condition_player() {
             const status = this.mapper.properties.player.arena_status.value
@@ -101,8 +80,6 @@ const app = Vue.createApp({
                 cardCounts[card]++;
             });
 
-            // console.log(cardCounts);
-
             return cardCounts
         },
         get_player_deck() {
@@ -115,8 +92,6 @@ const app = Vue.createApp({
                 }
                 cardCounts[card]++;
             });
-
-            // console.log(cardCounts);
 
             return cardCounts
         },
@@ -131,8 +106,6 @@ const app = Vue.createApp({
                 cardCounts[card]++;
             });
 
-            // console.log(cardCounts);
-
             return cardCounts
         },
     },
@@ -146,8 +119,8 @@ const app = Vue.createApp({
             const hp = this.mapper.properties[user].hp.ArenaCardHP.value
             const card_data = this.card_data
             const card_name = this.mapper.properties[user].arena_pokemon.value
-            if (card_name == undefined) { return }
-            const total_hp = card_data[card_name].hp
+            if (card_name == undefined || card_name == "MYSTERIOIUS_FOSSIL" || card_name == "CLEFAIRY_DOLL" || !card_data[card_name]?.hp) { return 0 }
+            const total_hp = card_data[card_name]?.hp ?? 0
             const damage = total_hp - hp
             return Math.floor(damage / 10)
         },
@@ -156,9 +129,8 @@ const app = Vue.createApp({
             if (hp == 0) { return 0 }
             const card_data = this.card_data
             const card_name = this.mapper.properties[user].bench[slot].value
-            if (card_name == undefined) { return }
-            const total_hp = card_data[card_name].hp
-            // console.log(total_hp)
+            if (card_name == undefined || card_name == "MYSTERIOIUS_FOSSIL" || card_name == "CLEFAIRY_DOLL" || !card_data[card_name]?.hp) { return 0 }
+            const total_hp = card_data[card_name]?.hp ?? 0
             const damage = total_hp - hp
             return Math.floor(damage / 10)
         },
